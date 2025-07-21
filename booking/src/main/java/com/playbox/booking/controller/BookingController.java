@@ -105,6 +105,17 @@ public ResponseEntity<List<BookedSlotDTO>> getBookedSlotsByVenueDateAndSport(
     return ResponseEntity.ok(bookedSlots);
 }
 
+@GetMapping("/venuebycourt/{venueId}/date/{date}")
+public ResponseEntity<List<BookedSlotDTO>> getBookedSlotsByVenueDateSportAndVenueId(
+        @PathVariable Long venueId,
+        @PathVariable String date, // format: yyyy-MM-dd
+        @RequestParam String sport,
+        @RequestParam Long courtId
+) {
+    List<BookedSlotDTO> bookedSlots = bookingService.getBookedSlotsByVenueDateSportAndCourtId(venueId, date, sport, courtId);
+    return ResponseEntity.ok(bookedSlots);
+}
+
 @GetMapping("/courts")
 public List<Court> getCourts(@RequestParam Long venueId, @RequestParam String sport) {
     return courtRepository.findByVenueIdAndSport(venueId, sport);

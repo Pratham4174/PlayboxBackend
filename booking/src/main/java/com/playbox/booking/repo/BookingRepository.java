@@ -39,6 +39,14 @@ List<Booking> findBookingsByVenueIdAndTimeRange(@Param("venueId") Long venueId,
 @Query("SELECT b FROM Booking b WHERE b.venueId = :venueId AND DATE(b.startTime) = :bookingDate")
 List<Booking> findByVenueIdAndDate(@Param("venueId") Long venueId, @Param("bookingDate") LocalDate bookingDate);
 
+List<Booking> findByVenueIdAndSportAndStartTimeBetweenAndCourtId(
+    Long venueId,
+    String sport,
+    LocalDateTime start,
+    LocalDateTime end,
+    Long courtId
+);
+
 List<Booking> findByVenueIdAndSportAndStartTimeBetween(
     Long venueId,
     String sport,

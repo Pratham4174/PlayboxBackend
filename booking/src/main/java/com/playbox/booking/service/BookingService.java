@@ -47,6 +47,8 @@ private VenueIntegrationService venueIntegrationService;
         booking.setStartTime(request.getStartTime());
         booking.setEndTime(request.getEndTime());
         booking.setCreatedAt(LocalDateTime.now());
+        booking.setCourtId(request.getCourtId());
+        booking.setCourtName(request.getCourtName());
     
         booking.setActive(booking.getEndTime().isAfter(LocalDateTime.now()));
     
@@ -147,5 +149,18 @@ public List<BookedSlotDTO> getBookedSlotsByVenueDateAndSport(Long venueId, Strin
         .collect(Collectors.toList());
 }
 
+public List<BookedSlotDTO> getBookedSlotsByVenueDateSportAndCourtId(Long venueId, String date, String sport, Long courtId) {
+    LocalDate bookingDate = LocalDate.parse(date);
+    LocalDateTime startOfDay = bookingDate.atStartOfDay();
+    LocalDateTime endOfDay = bookingDate.atTime(LocalTime.MAX);
+
+    List<Booking> bookings = bookingRepository.findByVenueIdAndSportAndStartTimeBetweenAndCourtId(
+        venueId, sport, startOfDay, endOfDay, courtId
+    );
+
+    return bookings.stream()
+        .map(b -> new BookedSlotDTO(b.getSlotType(),b.getStartTime(), b.getEndTime()))
+        .collect(Collectors.toList());
+}
 
 }

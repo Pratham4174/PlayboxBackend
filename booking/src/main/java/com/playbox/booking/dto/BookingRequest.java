@@ -18,4 +18,6 @@ public class BookingRequest {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Long ownerId; // Owner of the venue
+    private Long courtId; // Court ID if applicable
+    private String courtName; // Court name if applicable
 }
